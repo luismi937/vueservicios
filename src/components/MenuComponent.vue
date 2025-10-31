@@ -14,6 +14,16 @@
                         {{ item.name }}
                     </router-link>
                 </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Oficios
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li v-for="oficio in oficios" :key="oficio">
+                                <router-link class="dropdown-item" :to="{path: '/empleadosoficios/'+ oficio}">{{oficio}}</router-link>
+                            </li>
+                        </ul>
+                    </li>
             </ul>
         </nav>
         
@@ -21,6 +31,8 @@
 </template>
 
 <script>
+import axios from 'axios';  
+import Global from './../Global';
 export default {
     name: 'MenuComponent',
     data() {
@@ -31,8 +43,22 @@ export default {
                 { name: 'Coches', path: '/coches' },
                 { name: 'Empleados', path: '/empleados' },
                 { name: 'Customers', path: '/customers' }
-            ]
+            ],
+            oficios:[
+
+            ],
+            
         }
+    },mounted(){
+                console.log("mounted");
+                let request = "api/Empleados/Oficios";
+                let url = Global.urlEmpleados +request;
+                console.log(url);
+                axios.get(url).then(response=>{
+                    console.log("leyendo oficios");
+                    this.oficios = response.data;
+                    //console.log(response.data);
+                })
     }
 }
 </script>
