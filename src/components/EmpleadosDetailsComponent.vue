@@ -37,32 +37,52 @@
 </template>
 
 <script>
+// Importar axios para realizar peticiones HTTP
 import axios from "axios";
+// Importar la configuración global con las URLs de las APIs
 import Global from "../Global.js";
+
+// Obtener la URL de la API de empleados desde la configuración global
 var urlApi = Global.urlEmpleados;
+
 export default {
+  // Nombre del componente
   name: "EmpleadosDetailsComponent",
+  // Estado local del componente
   data() {
     return {
+      // Array para almacenar la lista de empleados
       empleados: [],
+      // Variable para almacenar el ID del empleado seleccionado
       idEmpleado: 0,
+      // Variable para almacenar los detalles del empleado seleccionado
       selectedEmpleado: null,
     };
   },
+  // Hook del ciclo de vida que se ejecuta al montar el componente
   mounted() {
+    // Definir el endpoint de la API
     let request = "api/Empleados";
+    // Realizar petición GET para obtener todos los empleados
     axios.get(urlApi + request).then((response) => {
       console.log("Leyendo datos empleados");
+      // Asignar los datos obtenidos al array de empleados
       this.empleados = response.data;
     });
-  },methods:{
+  },
+  // Métodos del componente
+  methods:{
+    // Método que se ejecuta cuando cambia el empleado seleccionado
     onEmpleadoChange(){
         console.log("Empleado cambiado a: " + this.idEmpleado);
-         let request="api/Empleados/" + this.idEmpleado;
-         axios.get(urlApi + request).then((response) => {
-           console.log("Leyendo datos empleado");
-           this.selectedEmpleado = response.data;
-         });
+        // Definir el endpoint con el ID del empleado seleccionado
+        let request="api/Empleados/" + this.idEmpleado;
+        // Realizar petición GET para obtener los detalles del empleado
+        axios.get(urlApi + request).then((response) => {
+          console.log("Leyendo datos empleado");
+          // Asignar los datos del empleado al objeto selectedEmpleado
+          this.selectedEmpleado = response.data;
+        });
     }
   }
 };

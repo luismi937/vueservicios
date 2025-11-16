@@ -43,33 +43,49 @@
 
 <script>
 
+// Importar axios para realizar peticiones HTTP
 import axios from 'axios';
+// Importar la configuración global con las URLs de las APIs
 import Global from '../Global.js';
 
+// Obtener la URL de la API de clientes desde la configuración global
 let urlApi = Global.urlCustomer;
 
 export default {
+  // Nombre del componente
   name: 'CustomersComponent',
+  // Estado local del componente
   data() {
     return {
+      // Array para almacenar todos los clientes
       customers: [],
+      // Variable para almacenar el ID de búsqueda
       searchId: '',
+      // Variable para almacenar el cliente encontrado
       customerFound: null,
     };
   },
+  // Hook del ciclo de vida que se ejecuta al montar el componente
   mounted() {
+    // Definir el endpoint de la API
     let request = 'Customers';
+    // Realizar petición GET para obtener todos los clientes
     axios.get(urlApi + request).then((response) => {
       console.log('Leyendo datos');
+      // Asignar los datos obtenidos al array de clientes
       this.customers = response.data.value;
     });
   },
+  // Métodos del componente
   methods: {
+    // Método para buscar un cliente por su ID
     searchCustomerbyId() {
       console.log('Buscando cliente por id: ' + this.searchId);
+      // Buscar en el array de clientes el que coincida con el ID ingresado
       this.customerFound = this.customers.find(
         (customer) => customer.CustomerID === this.searchId.toUpperCase()
       );
+      // Limpiar el campo de búsqueda
       this.searchId = '';
     },
   },
